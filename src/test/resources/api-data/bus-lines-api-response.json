@@ -1,0 +1,51 @@
+{
+  "StatusCode": 0,
+  "Message": null,
+  "ExecutionTime": 0,
+  "ResponseData": {
+    "Version": "2021-12-04 00:09",
+    "Type": "Line",
+    "Result": [
+      {
+        "LineNumber": "1",
+        "LineDesignation": "1",
+        "DefaultTransportMode": "blåbuss",
+        "DefaultTransportModeCode": "BUS",
+        "LastModifiedUtcDateTime": "2007-08-24 00:00:00.000",
+        "ExistsFromDate": "2007-08-24 00:00:00.000"
+      },
+      {
+        "LineNumber": "112",
+        "LineDesignation": "112",
+        "DefaultTransportMode": "",
+        "DefaultTransportModeCode": "BUS",
+        "LastModifiedUtcDateTime": "2007-08-24 00:00:00.000",
+        "ExistsFromDate": "2007-08-24 00:00:00.000"
+      },
+      {
+        "LineNumber": "113",
+        "LineDesignation": "113",
+        "DefaultTransportMode": "",
+        "DefaultTransportModeCode": "BUS",
+        "LastModifiedUtcDateTime": "2007-08-24 00:00:00.000",
+        "ExistsFromDate": "2007-08-24 00:00:00.000"
+      },
+      {
+        "LineNumber": "114",
+        "LineDesignation": "114",
+        "DefaultTransportMode": "",
+        "DefaultTransportModeCode": "BUS",
+        "LastModifiedUtcDateTime": "2007-08-24 00:00:00.000",
+        "ExistsFromDate": "2007-08-24 00:00:00.000"
+      },
+      {
+        "LineNumber": "998",
+        "LineDesignation": "UL870",
+        "DefaultTransportMode": "",
+        "DefaultTransportModeCode": "BUS",
+        "LastModifiedUtcDateTime": "2007-08-24 00:00:00.000",
+        "ExistsFromDate": "2007-08-24 00:00:00.000"
+      }
+    ]
+  }
+}

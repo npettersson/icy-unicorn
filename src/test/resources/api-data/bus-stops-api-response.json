@@ -1,0 +1,44 @@
+{
+  "StatusCode": 0,
+  "Message": null,
+  "ExecutionTime": 636,
+  "ResponseData": {
+    "Version": "2021-12-04 00:09",
+    "Type": "StopPoint",
+    "Result": [
+      {
+        "StopPointNumber": "10001",
+        "StopPointName": "Bus stop A",
+        "StopAreaNumber": "10001",
+        "LocationNorthingCoordinate": "59.3374104106887",
+        "LocationEastingCoordinate": "18.0216535880432",
+        "ZoneShortName": "A",
+        "StopAreaTypeCode": "BUSTERM",
+        "LastModifiedUtcDateTime": "2014-06-03 00:00:00.000",
+        "ExistsFromDate": "2014-06-03 00:00:00.000"
+      },
+      {
+        "StopPointNumber": "10002",
+        "StopPointName": "Bus stop B",
+        "StopAreaNumber": "10002",
+        "LocationNorthingCoordinate": "59.3361450073188",
+        "LocationEastingCoordinate": "18.0222866342593",
+        "ZoneShortName": "A",
+        "StopAreaTypeCode": "BUSTERM",
+        "LastModifiedUtcDateTime": "2015-09-24 00:00:00.000",
+        "ExistsFromDate": "2015-09-24 00:00:00.000"
+      },
+      {
+        "StopPointNumber": "10003",
+        "StopPointName": "Bus stop C",
+        "StopAreaNumber": "10002",
+        "LocationNorthingCoordinate": "59.3362549983713",
+        "LocationEastingCoordinate": "18.0220232520707",
+        "ZoneShortName": "A",
+        "StopAreaTypeCode": "BUSTERM",
+        "LastModifiedUtcDateTime": "2015-09-24 00:00:00.000",
+        "ExistsFromDate": "2015-09-24 00:00:00.000"
+      }
+    ]
+  }
+}
