@@ -1,7 +1,6 @@
 package se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
@@ -13,7 +12,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.util.ResourceUtils;
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusStopOnLineDto;
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusStopsOnLineResponseDto;
-import se.npet.trafiklab.icyunicorn.domain.BusStopOnLine;
+import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStopOnLine;
 
 class TrafiklabDtoMapperTest {
 
