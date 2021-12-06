@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
-import static org.hamcrest.core.StringStartsWith.startsWith;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -18,19 +17,20 @@ import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 import se.npet.trafiklab.icyunicorn.SpringTestConfiguration;
+import se.npet.trafiklab.icyunicorn.domain.ports.BusLinesDataPort;
 import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusLine;
 import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStop;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = { SpringTestConfiguration.class })
 class TrafiklabAdapterIntegrationTest {
 
-  private final TrafiklabAdapterImpl adapter;
+  private final BusLinesDataPort adapter;
   private final TrafiklabApiUrlFactory apiUrlFactory;
 
   private final MockRestServiceServer mockServer;
 
   @Autowired
-  public TrafiklabAdapterIntegrationTest(TrafiklabAdapterImpl adapter, RestTemplate restTemplate,
+  public TrafiklabAdapterIntegrationTest(BusLinesDataPort adapter, RestTemplate restTemplate,
       TrafiklabApiUrlFactory apiUrlFactory) {
     this.adapter = adapter;
     this.apiUrlFactory = apiUrlFactory;

@@ -1,20 +1,35 @@
 package se.npet.trafiklab.icyunicorn.domain.routes;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import se.npet.trafiklab.icyunicorn.domain.ports.BusLinesDataPort;
 import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusLine;
 import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStop;
 import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStopOnLine;
 import se.npet.trafiklab.icyunicorn.domain.routes.entities.RouteDirection;
 
+@ExtendWith(MockitoExtension.class)
 class BusLinesStoreFactoryTest {
 
   private List<BusLine> busLines;
   private List<BusStop> busStops;
   private List<BusStopOnLine> busStopOnLines;
+
+  @Mock
+  private BusLinesDataPort busLinesDataPort;
+
+  @InjectMocks
+  private BusLinesStoreFactory storeFactory;
 
   @BeforeEach
   void setUp() {
@@ -47,6 +62,18 @@ class BusLinesStoreFactoryTest {
   @Test
   void createBusLinesStore() {
 
+    when(busLinesDataPort.getBusLines()).thenReturn(busLines);
+    when(busLinesDataPort.getBusStops()).thenReturn(busStops);
+    when(busLinesDataPort.getBusStopsOnLines()).thenReturn(busStopOnLines);
 
+    BusLinesStore store = storeFactory.createBusLinesStore();
+    assertThat(store).isNotNull();
+    assertThat(store.getBusLineMap()).isNotEmpty().hasSize(2);
+
+    BusLine b1 = store.getBusLineByLineId("b1");
+
+    assertThat(b1).isNotNull();
+    assertThat(b1.getLineId()).isEqualTo("b1");
+    assertThat(b1.getRoutes()).hasSize(2);
   }
 }

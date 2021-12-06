@@ -9,12 +9,13 @@ import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusStopOnLin
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusStopResponseDto;
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusStopsOnLineResponseDto;
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.mapper.TrafiklabDtoMapper;
+import se.npet.trafiklab.icyunicorn.domain.ports.BusLinesDataPort;
 import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusLine;
 import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStop;
 import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStopOnLine;
 
 @Service
-public class TrafiklabAdapterImpl {
+public class TrafiklabAdapterImpl implements BusLinesDataPort {
 
   private final RestTemplate restTemplate;
   private final TrafiklabDtoMapper mapper;
@@ -26,6 +27,7 @@ public class TrafiklabAdapterImpl {
     this.apiUrlFactory = apiUrlFactory;
   }
 
+  @Override
   public List<BusLine> getBusLines() {
     BusLineResponseDto busLineResponse = restTemplate.getForObject(apiUrlFactory.getBusLinesUrl(), BusLineResponseDto.class);
     return busLineResponse.getResponseData().getResult().stream()
@@ -33,6 +35,7 @@ public class TrafiklabAdapterImpl {
         .collect(Collectors.toList());
   }
 
+  @Override
   public List<BusStop> getBusStops() {
     BusStopResponseDto busStopResponseDto = restTemplate.getForObject(apiUrlFactory.getBusStopsUrl(), BusStopResponseDto.class);
     return busStopResponseDto.getResponseData().getResult().stream()
@@ -40,6 +43,7 @@ public class TrafiklabAdapterImpl {
         .collect(Collectors.toList());
   }
 
+  @Override
   public List<BusStopOnLine> getBusStopsOnLines() {
     BusStopsOnLineResponseDto busStopsOnLineResponseDto = restTemplate.getForObject(apiUrlFactory.getBusStopsOnLinesUrl(), BusStopsOnLineResponseDto.class);
     List<BusStopOnLineDto> busStopOnLineDtos = busStopsOnLineResponseDto.getResponseData().getResult();

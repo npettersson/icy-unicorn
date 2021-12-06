@@ -2,12 +2,11 @@ package se.npet.trafiklab.icyunicorn.domain.routes;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.TrafiklabAdapterImpl;
+import se.npet.trafiklab.icyunicorn.domain.ports.BusLinesDataPort;
 import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusLine;
 import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusLineAndDirection;
 import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusRoute;
@@ -15,20 +14,28 @@ import se.npet.trafiklab.icyunicorn.domain.routes.entities.RouteDirection;
 import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStop;
 import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStopOnLine;
 
+@Slf4j
 @Component
 public class BusLinesStoreFactory {
 
-  private final TrafiklabAdapterImpl trafficAdapter;
+  private final BusLinesDataPort busLinesDataPort;
 
-  public BusLinesStoreFactory(TrafiklabAdapterImpl trafficAdapter) {
-    this.trafficAdapter = trafficAdapter;
+  public BusLinesStoreFactory(BusLinesDataPort busLinesDataPort) {
+    this.busLinesDataPort = busLinesDataPort;
   }
 
   public BusLinesStore createBusLinesStore() {
-    return null;
+    log.info("Creating BusLinesStore");
+    List<BusLine> busLines = busLinesDataPort.getBusLines();
+    log.info("Got <{}> bus lines", busLines.size());
+    List<BusStop> busStops = busLinesDataPort.getBusStops();
+    log.info("Got <{}> bus stops", busStops.size());
+    List<BusStopOnLine> busStopsOnLines = busLinesDataPort.getBusStopsOnLines();
+    log.info("Got <{}> bus stops on lines", busStopsOnLines.size());
+    return createBusLinesStore(busLines, busStops, busStopsOnLines);
   }
 
-  public BusLinesStore createBusLinesStore(List<BusLine> busLines, List<BusStop> busStops, List<BusStopOnLine> busStopOnLines) {
+  BusLinesStore createBusLinesStore(List<BusLine> busLines, List<BusStop> busStops, List<BusStopOnLine> busStopOnLines) {
 
     Map<String, BusLine> busLineMap = busLines.stream()
         .collect(Collectors.toMap(BusLine::getLineId, Function.identity()));
