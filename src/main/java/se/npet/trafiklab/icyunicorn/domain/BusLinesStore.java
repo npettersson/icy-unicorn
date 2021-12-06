@@ -1,7 +1,7 @@
-package se.npet.trafiklab.icyunicorn.domain.routes;
+package se.npet.trafiklab.icyunicorn.domain;
 
 import java.util.Map;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusLine;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusLine;
 
 public class BusLinesStore {
 

@@ -1,9 +1,8 @@
-package se.npet.trafiklab.icyunicorn.domain.routes.entities;
+package se.npet.trafiklab.icyunicorn.domain.entities;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Value;
 
 @Data
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

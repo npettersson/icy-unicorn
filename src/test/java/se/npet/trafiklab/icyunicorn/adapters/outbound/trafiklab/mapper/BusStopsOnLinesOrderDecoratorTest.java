@@ -1,11 +1,10 @@
 package se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusLineAndDirection;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.RouteDirection;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusLineAndDirection;
+import se.npet.trafiklab.icyunicorn.domain.entities.RouteDirection;
 
 class BusStopsOnLinesOrderDecoratorTest {
 

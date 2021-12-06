@@ -18,8 +18,8 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 import se.npet.trafiklab.icyunicorn.SpringTestConfiguration;
 import se.npet.trafiklab.icyunicorn.domain.ports.BusLinesDataPort;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusLine;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStop;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusLine;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusStop;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = { SpringTestConfiguration.class })
 class TrafiklabAdapterIntegrationTest {

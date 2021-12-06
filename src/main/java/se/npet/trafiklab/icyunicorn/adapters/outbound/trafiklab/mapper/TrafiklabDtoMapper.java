@@ -8,10 +8,10 @@ import org.mapstruct.Mapping;
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusLineDto;
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusStopDto;
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusStopOnLineDto;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusLine;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStop;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStopOnLine;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.RouteDirection;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusLine;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusStop;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusStopOnLine;
+import se.npet.trafiklab.icyunicorn.domain.entities.RouteDirection;
 
 @Mapper(componentModel = "spring")
 public interface TrafiklabDtoMapper {

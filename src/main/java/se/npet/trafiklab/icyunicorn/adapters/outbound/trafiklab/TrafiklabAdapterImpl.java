@@ -10,9 +10,9 @@ import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusStopRespo
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusStopsOnLineResponseDto;
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.mapper.TrafiklabDtoMapper;
 import se.npet.trafiklab.icyunicorn.domain.ports.BusLinesDataPort;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusLine;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStop;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStopOnLine;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusLine;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusStop;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusStopOnLine;
 
 @Service
 public class TrafiklabAdapterImpl implements BusLinesDataPort {

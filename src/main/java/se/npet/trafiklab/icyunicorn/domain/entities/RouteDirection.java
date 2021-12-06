@@ -1,4 +1,4 @@
-package se.npet.trafiklab.icyunicorn.domain.routes.entities;
+package se.npet.trafiklab.icyunicorn.domain.entities;
 
 public enum RouteDirection {
   A("0"), B("1");

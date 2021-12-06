@@ -3,8 +3,8 @@ package se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.mapper;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusLineAndDirection;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStopOnLine;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusLineAndDirection;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusStopOnLine;
 
 public class BusStopsOnLinesOrderDecorator {
   private final AtomicInteger counter = new AtomicInteger();

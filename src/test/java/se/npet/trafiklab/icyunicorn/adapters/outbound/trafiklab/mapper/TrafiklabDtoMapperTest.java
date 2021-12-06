@@ -12,7 +12,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.util.ResourceUtils;
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusStopOnLineDto;
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusStopsOnLineResponseDto;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStopOnLine;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusStopOnLine;
 
 class TrafiklabDtoMapperTest {
 

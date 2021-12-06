@@ -1,4 +1,4 @@
-package se.npet.trafiklab.icyunicorn.domain.routes.entities;
+package se.npet.trafiklab.icyunicorn.domain.entities;
 
 import java.util.ArrayList;
 import java.util.List;

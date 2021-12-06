@@ -1,4 +1,4 @@
-package se.npet.trafiklab.icyunicorn.domain.routes;
+package se.npet.trafiklab.icyunicorn.domain;
 
 import java.util.List;
 import java.util.Map;
@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import se.npet.trafiklab.icyunicorn.domain.ports.BusLinesDataPort;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusLine;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusLineAndDirection;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusRoute;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.RouteDirection;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStop;
-import se.npet.trafiklab.icyunicorn.domain.routes.entities.BusStopOnLine;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusLine;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusLineAndDirection;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusRoute;
+import se.npet.trafiklab.icyunicorn.domain.entities.RouteDirection;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusStop;
+import se.npet.trafiklab.icyunicorn.domain.entities.BusStopOnLine;
 
 @Slf4j
 @Component
