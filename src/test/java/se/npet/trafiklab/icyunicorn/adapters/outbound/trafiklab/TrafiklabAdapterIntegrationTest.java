@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
@@ -21,6 +22,7 @@ import se.npet.trafiklab.icyunicorn.domain.ports.BusLinesDataPort;
 import se.npet.trafiklab.icyunicorn.domain.entities.BusLine;
 import se.npet.trafiklab.icyunicorn.domain.entities.BusStop;
 
+@ActiveProfiles("integration-test")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = { SpringTestConfiguration.class })
 class TrafiklabAdapterIntegrationTest {
 
@@ -49,7 +51,7 @@ class TrafiklabAdapterIntegrationTest {
 
     assertThat(busLines).isNotEmpty();
     assertThat(busLines).hasSize(5);
-    assertThat(busLines).map(BusLine::getLineId)
+    assertThat(busLines).map(BusLine::getDesignation)
         .containsExactlyInAnyOrder("1", "112", "113", "114", "998");
   }
 

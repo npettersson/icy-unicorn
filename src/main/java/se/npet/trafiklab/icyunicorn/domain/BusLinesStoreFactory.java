@@ -2,6 +2,7 @@ package se.npet.trafiklab.icyunicorn.domain;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +38,7 @@ public class BusLinesStoreFactory {
 
   BusLinesStore createBusLinesStore(List<BusLine> busLines, List<BusStop> busStops, List<BusStopOnLine> busStopOnLines) {
 
-    Map<String, BusLine> busLineMap = busLines.stream()
-        .collect(Collectors.toMap(BusLine::getLineId, Function.identity()));
+    Map<String, BusLine> busLineMap = prepareBusLinesMap(busLines);
 
     Map<String, BusStop> busStopMap = busStops.stream().collect(Collectors.toMap(BusStop::getStopPointId, Function.identity()));
 
@@ -59,5 +59,13 @@ public class BusLinesStoreFactory {
         .collect(Collectors.toList());
 
     return new BusRoute(routeDirection, busStops);
+  }
+
+  Map<String, BusLine> prepareBusLinesMap(List<BusLine> busLines) {
+    Map<String, BusLine> busLinesMap = new TreeMap<>();
+    // make sure to include only the most current bus line
+    busLines.forEach(busLine -> busLinesMap.merge(busLine.getLineId(), busLine,
+        (currLine, newLine) -> (newLine.getExistsFrom().isAfter(currLine.getExistsFrom())) ? newLine : currLine));
+    return busLinesMap;
   }
 }

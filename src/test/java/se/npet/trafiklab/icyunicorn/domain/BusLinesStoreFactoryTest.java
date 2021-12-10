@@ -3,7 +3,10 @@ package se.npet.trafiklab.icyunicorn.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang3.builder.ToStringExclude;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +22,10 @@ import se.npet.trafiklab.icyunicorn.domain.ports.BusLinesDataPort;
 @ExtendWith(MockitoExtension.class)
 class BusLinesStoreFactoryTest {
 
+  private BusLine b1, b2a, b2b;
+
+  private BusStop s1, s2,s3, s4, s5, s6;
+
   private List<BusLine> busLines;
   private List<BusStop> busStops;
   private List<BusStopOnLine> busStopOnLines;
@@ -31,29 +38,30 @@ class BusLinesStoreFactoryTest {
 
   @BeforeEach
   void setUp() {
-    BusLine b1 = new BusLine("b1");
-    BusLine b2 = new BusLine("b2");
-    busLines = List.of(b1, b2);
+    this.b1 = new BusLine("1", "b1", LocalDate.of(2021,1,1));
+    this.b2a = new BusLine("2", "b2", LocalDate.of(2021, 1, 1));
+    this.b2b = new BusLine("2", "b2", LocalDate.of(2021, 3, 1));
+    this.busLines = List.of(b1, b2a, b2b);
 
-    BusStop s1 = new BusStop("s1","Stop 1");
-    BusStop s2 = new BusStop("s2","Stop 2");
-    BusStop s3 = new BusStop("s3","Stop 3");
-    BusStop s4 = new BusStop("s4","Stop 4");
-    BusStop s5 = new BusStop("s5","Stop 5");
-    BusStop s6 = new BusStop("s6","Stop 6");
-    busStops = List.of(s1, s2, s3, s4, s5, s6);
+    this.s1 = new BusStop("1","Stop 1");
+    this.s2 = new BusStop("2","Stop 2");
+    this.s3 = new BusStop("3","Stop 3");
+    this.s4 = new BusStop("4","Stop 4");
+    this.s5 = new BusStop("5","Stop 5");
+    this.s6 = new BusStop("6","Stop 6");
+    this.busStops = List.of(s1, s2, s3, s4, s5, s6);
 
     busStopOnLines = List.of(
-      new BusStopOnLine("b1", "s1", RouteDirection.A),
-      new BusStopOnLine("b1", "s2", RouteDirection.A),
-      new BusStopOnLine("b1", "s3", RouteDirection.A),
-      new BusStopOnLine("b1", "s3", RouteDirection.B),
-      new BusStopOnLine("b1", "s2", RouteDirection.B),
-      new BusStopOnLine("b1", "s1", RouteDirection.B),
-      new BusStopOnLine("b2", "s4", RouteDirection.A),
-      new BusStopOnLine("b2", "s5", RouteDirection.A),
-      new BusStopOnLine("b2", "s5", RouteDirection.B),
-      new BusStopOnLine("b2", "s4", RouteDirection.B)
+      new BusStopOnLine("1", "1", RouteDirection.A),
+      new BusStopOnLine("1", "2", RouteDirection.A),
+      new BusStopOnLine("1", "3", RouteDirection.A),
+      new BusStopOnLine("1", "3", RouteDirection.B),
+      new BusStopOnLine("1", "2", RouteDirection.B),
+      new BusStopOnLine("1", "1", RouteDirection.B),
+      new BusStopOnLine("2", "4", RouteDirection.A),
+      new BusStopOnLine("2", "5", RouteDirection.A),
+      new BusStopOnLine("2", "5", RouteDirection.B),
+      new BusStopOnLine("2", "4", RouteDirection.B)
     );
   }
 
@@ -68,10 +76,18 @@ class BusLinesStoreFactoryTest {
     assertThat(store).isNotNull();
     assertThat(store.getBusLineMap()).isNotEmpty().hasSize(2);
 
-    BusLine b1 = store.getBusLineByLineId("b1");
+    BusLine b1 = store.getBusLineByLineId("1");
 
     assertThat(b1).isNotNull();
-    assertThat(b1.getLineId()).isEqualTo("b1");
+    assertThat(b1.getDesignation()).isEqualTo("b1");
     assertThat(b1.getRoutes()).hasSize(2);
   }
+
+  @Test
+  void testPrepBusLinesMap() {
+    Map<String, BusLine> busLineMap = storeFactory.prepareBusLinesMap(this.busLines);
+    assertThat(busLineMap).isNotNull().hasSize(2);
+    assertThat(busLineMap.values()).contains(b1, b2b);
+  }
+
 }
