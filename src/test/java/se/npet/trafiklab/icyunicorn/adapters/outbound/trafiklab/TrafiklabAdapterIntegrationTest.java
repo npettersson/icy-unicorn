@@ -18,6 +18,7 @@ import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 import se.npet.trafiklab.icyunicorn.SpringTestConfiguration;
+import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.mapper.TrafiklabDtoMapper;
 import se.npet.trafiklab.icyunicorn.domain.ports.BusLinesDataPort;
 import se.npet.trafiklab.icyunicorn.domain.entities.BusLine;
 import se.npet.trafiklab.icyunicorn.domain.entities.BusStop;
@@ -32,9 +33,9 @@ class TrafiklabAdapterIntegrationTest {
   private final MockRestServiceServer mockServer;
 
   @Autowired
-  public TrafiklabAdapterIntegrationTest(BusLinesDataPort adapter, RestTemplate restTemplate,
-      TrafiklabApiUrlFactory apiUrlFactory) {
-    this.adapter = adapter;
+  public TrafiklabAdapterIntegrationTest(RestTemplate restTemplate,
+      TrafiklabApiUrlFactory apiUrlFactory, TrafiklabDtoMapper mapper) {
+    this.adapter = new TrafiklabAdapterImpl(restTemplate, mapper, apiUrlFactory);
     this.apiUrlFactory = apiUrlFactory;
 
     this.mockServer = MockRestServiceServer.createServer(restTemplate);
@@ -52,7 +53,9 @@ class TrafiklabAdapterIntegrationTest {
     assertThat(busLines).isNotEmpty();
     assertThat(busLines).hasSize(5);
     assertThat(busLines).map(BusLine::getDesignation)
-        .containsExactlyInAnyOrder("1", "112", "113", "114", "998");
+        .containsExactlyInAnyOrder("1", "112", "113", "114", "UL870");
+
+    mockServer.verify();
   }
 
   @Test
@@ -68,6 +71,8 @@ class TrafiklabAdapterIntegrationTest {
     assertThat(busStops).hasSize(3);
     assertThat(busStops).map(BusStop::getStopPointName)
         .containsExactlyInAnyOrder("Bus stop A", "Bus stop B", "Bus stop C");
+
+    mockServer.verify();
   }
 
 }

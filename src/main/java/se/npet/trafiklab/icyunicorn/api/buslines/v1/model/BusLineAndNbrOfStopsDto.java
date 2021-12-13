@@ -1,11 +1,10 @@
 package se.npet.trafiklab.icyunicorn.api.buslines.v1.model;
 
-import java.util.List;
 import lombok.Data;
 
 @Data
-public class BusLineDto {
+public class BusLineAndNbrOfStopsDto {
   private String lineId;
+  private String designation;
   private int numberOfDistinctStops;
-  private List<BusRouteDto> routes;
 }

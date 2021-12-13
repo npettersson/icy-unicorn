@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang3.builder.ToStringExclude;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +21,7 @@ import se.npet.trafiklab.icyunicorn.domain.ports.BusLinesDataPort;
 @ExtendWith(MockitoExtension.class)
 class BusLinesStoreFactoryTest {
 
-  private BusLine b1, b2a, b2b;
+  private BusLine b1, b2old, b2new;
 
   private BusStop s1, s2,s3, s4, s5, s6;
 
@@ -39,16 +38,16 @@ class BusLinesStoreFactoryTest {
   @BeforeEach
   void setUp() {
     this.b1 = new BusLine("1", "b1", LocalDate.of(2021,1,1));
-    this.b2a = new BusLine("2", "b2", LocalDate.of(2021, 1, 1));
-    this.b2b = new BusLine("2", "b2", LocalDate.of(2021, 3, 1));
-    this.busLines = List.of(b1, b2a, b2b);
+    this.b2old = new BusLine("2", "b2", LocalDate.of(2021, 1, 1));
+    this.b2new = new BusLine("2", "b2", LocalDate.of(2021, 3, 1));
+    this.busLines = List.of(b1, b2old, b2new);
 
-    this.s1 = new BusStop("1","Stop 1");
-    this.s2 = new BusStop("2","Stop 2");
-    this.s3 = new BusStop("3","Stop 3");
-    this.s4 = new BusStop("4","Stop 4");
-    this.s5 = new BusStop("5","Stop 5");
-    this.s6 = new BusStop("6","Stop 6");
+    this.s1 = new BusStop("1", "1", "Stop 1");
+    this.s2 = new BusStop("2", "2", "Stop 2");
+    this.s3 = new BusStop("3", "3", "Stop 3");
+    this.s4 = new BusStop("4", "4", "Stop 4");
+    this.s5 = new BusStop("5", "5", "Stop 5");
+    this.s6 = new BusStop("6", "6", "Stop 6");
     this.busStops = List.of(s1, s2, s3, s4, s5, s6);
 
     busStopOnLines = List.of(
@@ -66,7 +65,7 @@ class BusLinesStoreFactoryTest {
   }
 
   @Test
-  void createBusLinesStore() {
+  void createBusLinesStore_shouldWorkOk() {
 
     when(busLinesDataPort.getBusLines()).thenReturn(busLines);
     when(busLinesDataPort.getBusStops()).thenReturn(busStops);
@@ -80,14 +79,14 @@ class BusLinesStoreFactoryTest {
 
     assertThat(b1).isNotNull();
     assertThat(b1.getDesignation()).isEqualTo("b1");
-    assertThat(b1.getRoutes()).hasSize(2);
+    assertThat(b1.getBusRoutes()).hasSize(2);
   }
 
   @Test
-  void testPrepBusLinesMap() {
+  void testPrepBusLinesMap_shouldContainOnlyRecentBusLines() {
     Map<String, BusLine> busLineMap = storeFactory.prepareBusLinesMap(this.busLines);
     assertThat(busLineMap).isNotNull().hasSize(2);
-    assertThat(busLineMap.values()).contains(b1, b2b);
+    assertThat(busLineMap.values()).contains(b1, b2new);
   }
 
 }

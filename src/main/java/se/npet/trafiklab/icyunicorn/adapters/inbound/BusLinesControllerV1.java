@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import se.npet.trafiklab.icyunicorn.api.buslines.v1.BusLinesV1ApiMapper;
+import se.npet.trafiklab.icyunicorn.api.buslines.v1.model.BusLineAndNbrOfStopsDto;
 import se.npet.trafiklab.icyunicorn.api.buslines.v1.model.BusLineDto;
-import se.npet.trafiklab.icyunicorn.domain.service.BusLinesService;
+import se.npet.trafiklab.icyunicorn.service.BusLinesService;
 
 @RestController
 @RequestMapping(value = "/busline", produces = "application/json")
@@ -33,9 +34,9 @@ public class BusLinesControllerV1 {
 
   @Operation(summary = "Get the top bus lines that has the most stops on their routes")
   @GetMapping("/stops/top/{limit}")
-  public List<BusLineDto> getTopBusLinesByNumberOfStops(@PathVariable int limit){
+  public List<BusLineAndNbrOfStopsDto> getTopBusLinesByNumberOfStops(@PathVariable int limit){
     return busLinesService.getTopBusLinesByNumberOfStops(limit).stream()
-        .map(mapper::toBusLinesDto)
+        .map(mapper::toBusLineAndNbrOfStopsDto)
         .collect(Collectors.toList());
   }
 

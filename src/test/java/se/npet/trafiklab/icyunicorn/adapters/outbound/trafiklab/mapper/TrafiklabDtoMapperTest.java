@@ -60,8 +60,8 @@ class TrafiklabDtoMapperTest {
     List<BusStop> busStops = mapper.mapBusStops(this.busStopDtos);
     assertThat(busStops).hasSize(3);
     assertThat(busStops).allSatisfy(busStop -> {
-      assertThat(busStop.getId()).isGreaterThan(0);
       assertThat(busStop.getStopPointId()).isNotNull();
+      assertThat(busStop.getStopAreaId()).isNotNull();
       assertThat(busStop.getStopPointName()).isNotNull();
       assertThat(busStop.getNorthingCoord()).isNotNull();
       assertThat(busStop.getEastingCoord()).isNotNull();

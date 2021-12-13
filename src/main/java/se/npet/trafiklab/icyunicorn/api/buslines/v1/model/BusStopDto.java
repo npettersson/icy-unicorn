@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class BusStopDto {
   private String stopPointId;
+  private String stopAreaId;
   private String stopPointName;
   private String northingCoord;
   private String eastingCoord;

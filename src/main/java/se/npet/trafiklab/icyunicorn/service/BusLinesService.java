@@ -1,4 +1,4 @@
-package se.npet.trafiklab.icyunicorn.domain.service;
+package se.npet.trafiklab.icyunicorn.service;
 
 import java.util.List;
 import se.npet.trafiklab.icyunicorn.domain.entities.BusLine;

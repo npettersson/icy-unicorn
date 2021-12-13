@@ -1,8 +1,6 @@
-package se.npet.trafiklab.icyunicorn.domain.service;
+package se.npet.trafiklab.icyunicorn.service;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import se.npet.trafiklab.icyunicorn.domain.BusLinesStore;
 import se.npet.trafiklab.icyunicorn.domain.entities.BusLine;
@@ -23,10 +21,7 @@ public class BusLinesServiceImpl implements BusLinesService {
 
   @Override
   public List<BusLine> getTopBusLinesByNumberOfStops(int limit) {
-    return this.busLinesStore.getBusLineMap().values().stream()
-        .sorted(Comparator.comparing(BusLine::getTotalNumberOfStops))
-        .limit(limit)
-        .collect(Collectors.toList());
+    return this.busLinesStore.getBusLinesWithMostStops(limit);
   }
 
 }

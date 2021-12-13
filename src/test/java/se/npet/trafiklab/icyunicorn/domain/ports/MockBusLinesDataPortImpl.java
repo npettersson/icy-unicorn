@@ -42,12 +42,12 @@ public class MockBusLinesDataPortImpl implements BusLinesDataPort, InitializingB
     );
 
     this.busStops = List.of(
-        new BusStop("1", "Stop 1"),
-        new BusStop("2", "Stop 2"),
-        new BusStop("3", "Stop 3"),
-        new BusStop("4", "Stop 4"),
-        new BusStop("5", "Stop 5"),
-        new BusStop("6", "Stop 6")
+        new BusStop("1", "1", "Stop 1"),
+        new BusStop("2", "2", "Stop 2"),
+        new BusStop("3", "3", "Stop 3"),
+        new BusStop("4", "4", "Stop 4"),
+        new BusStop("5", "5", "Stop 5"),
+        new BusStop("6", "6", "Stop 6")
     );
 
     busStopOnLines = List.of(

@@ -28,6 +28,7 @@ public interface TrafiklabDtoMapper {
   @Mapping(source = "lineDesignation", target = "designation")
   @Mapping(source = "existsFromDate", target = "existsFrom")
   @Mapping(target = "routes", ignore = true)
+  @Mapping(target = "numberOfDistinctStops", ignore = true)
   BusLine toBusLine(BusLineDto busLineDto);
 
   default List<BusStop> mapBusStops(List<BusStopDto> busStopDtos) {
@@ -36,8 +37,8 @@ public interface TrafiklabDtoMapper {
         .collect(Collectors.toList());
   }
 
-  @Mapping(source = "stopPointNumber", target = "id")
   @Mapping(source = "stopPointNumber", target = "stopPointId")
+  @Mapping(source = "stopAreaNumber", target = "stopAreaId")
   @Mapping(source = "stopPointName", target = "stopPointName")
   @Mapping(source = "locationNorthingCoordinate", target = "northingCoord")
   @Mapping(source = "locationEastingCoordinate", target = "eastingCoord")
