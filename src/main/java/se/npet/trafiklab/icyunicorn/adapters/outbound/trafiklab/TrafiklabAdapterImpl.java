@@ -1,25 +1,25 @@
 package se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusLineResponseDto;
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusStopOnLineDto;
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusStopResponseDto;
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.dto.BusStopsOnLineResponseDto;
 import se.npet.trafiklab.icyunicorn.adapters.outbound.trafiklab.mapper.TrafiklabDtoMapper;
-import se.npet.trafiklab.icyunicorn.domain.ports.BusLinesDataPort;
 import se.npet.trafiklab.icyunicorn.domain.entities.BusLine;
 import se.npet.trafiklab.icyunicorn.domain.entities.BusStop;
 import se.npet.trafiklab.icyunicorn.domain.entities.BusStopOnLine;
+import se.npet.trafiklab.icyunicorn.domain.ports.BusLinesDataPort;
 
+@Slf4j
 @Component
 @Profile("!integration-test")
 public class TrafiklabAdapterImpl implements BusLinesDataPort {
@@ -38,9 +38,13 @@ public class TrafiklabAdapterImpl implements BusLinesDataPort {
   public List<BusLine> getBusLines() {
 
     ResponseEntity<BusLineResponseDto> responseEntity = restTemplate.exchange(apiUrlFactory.getBusLinesUrl(), HttpMethod.GET,
-        new HttpEntity(getCommonHeaders()), BusLineResponseDto.class);
+        getHttpEntityWithCommonHeaders(), BusLineResponseDto.class);
 
     BusLineResponseDto busLineResponseDto = responseEntity.getBody();
+
+    if (busLineResponseDto == null || busLineResponseDto.getResponseData() == null) {
+      throw new IllegalStateException("Call to bus lines API didn't return a valid response");
+    }
 
     return mapper.mapBusLines(busLineResponseDto.getResponseData().getResult());
   }
@@ -48,9 +52,13 @@ public class TrafiklabAdapterImpl implements BusLinesDataPort {
   @Override
   public List<BusStop> getBusStops() {
     ResponseEntity<BusStopResponseDto> responseEntity = restTemplate.exchange(apiUrlFactory.getBusStopsUrl(), HttpMethod.GET,
-        new HttpEntity(getCommonHeaders()), BusStopResponseDto.class);
+        getHttpEntityWithCommonHeaders(), BusStopResponseDto.class);
 
     BusStopResponseDto busStopResponseDto = responseEntity.getBody();
+
+    if (busStopResponseDto == null || busStopResponseDto.getResponseData() == null) {
+      throw new IllegalStateException("Call to bus stop API didn't return a valid response");
+    }
 
     return mapper.mapBusStops(busStopResponseDto.getResponseData().getResult());
   }
@@ -58,16 +66,21 @@ public class TrafiklabAdapterImpl implements BusLinesDataPort {
   @Override
   public List<BusStopOnLine> getBusStopsOnLines() {
     ResponseEntity<BusStopsOnLineResponseDto> responseEntity = restTemplate.exchange(apiUrlFactory.getBusStopsOnLinesUrl(), HttpMethod.GET,
-        new HttpEntity(getCommonHeaders()), BusStopsOnLineResponseDto.class);
+        getHttpEntityWithCommonHeaders(), BusStopsOnLineResponseDto.class);
 
     BusStopsOnLineResponseDto busStopsOnLineResponseDto = responseEntity.getBody();
+
+    if (busStopsOnLineResponseDto == null || busStopsOnLineResponseDto.getResponseData() == null) {
+      throw new IllegalStateException("Call to bus stops on line API didn't return a valid response");
+    }
+
     List<BusStopOnLineDto> busStopOnLineDtos = busStopsOnLineResponseDto.getResponseData().getResult();
     return mapper.mapBusStopsOnLines(busStopOnLineDtos);
   }
 
-  private HttpHeaders getCommonHeaders() {
+  private HttpEntity<String> getHttpEntityWithCommonHeaders() {
     HttpHeaders headers = new HttpHeaders();
     headers.add("Accept-Encoding","gzip,deflate");
-    return headers;
+    return new HttpEntity<>(headers);
   }
 }

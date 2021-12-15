@@ -3,9 +3,8 @@ package se.npet.trafiklab.icyunicorn.domain.entities;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 import lombok.Data;
 
 @Data
@@ -14,7 +13,7 @@ public class BusLine {
   private final String lineId;
   private final String designation;
   private final LocalDate existsFrom;
-  private final Map<RouteDirection, BusRoute> busRouteMap = new HashMap<>();
+  private final EnumMap<RouteDirection, BusRoute> busRouteMap = new EnumMap<>(RouteDirection.class);
   private long numberOfDistinctStops = 0;
 
   public void addRoute(BusRoute busRoute) {

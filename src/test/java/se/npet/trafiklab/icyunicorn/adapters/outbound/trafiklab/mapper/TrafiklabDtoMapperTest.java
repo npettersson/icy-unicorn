@@ -45,10 +45,9 @@ class TrafiklabDtoMapperTest {
   }
 
   @Test
-  void testMapBusLines() {
+  void mapBusLines_withJsonData_shouldMapOk() {
     List<BusLine> busLines = mapper.mapBusLines(busLineDtos);
-    assertThat(busLines).hasSize(5);
-    assertThat(busLines).allSatisfy(busLine -> {
+    assertThat(busLines).hasSize(5).allSatisfy(busLine -> {
       assertThat(busLine.getLineId()).isNotNull();
       assertThat(busLine.getDesignation()).isNotNull();
       assertThat(busLine.getExistsFrom()).isNotNull();
@@ -56,10 +55,9 @@ class TrafiklabDtoMapperTest {
   }
 
   @Test
-  void testMapBusStops() {
+  void mapBusStops_withJsonData_shouldMapOk() {
     List<BusStop> busStops = mapper.mapBusStops(this.busStopDtos);
-    assertThat(busStops).hasSize(3);
-    assertThat(busStops).allSatisfy(busStop -> {
+    assertThat(busStops).hasSize(3).allSatisfy(busStop -> {
       assertThat(busStop.getStopPointId()).isNotNull();
       assertThat(busStop.getStopAreaId()).isNotNull();
       assertThat(busStop.getStopPointName()).isNotNull();
@@ -70,7 +68,7 @@ class TrafiklabDtoMapperTest {
   }
 
   @Test
-  void testMapBusStopsOnLines() {
+  void mapBusStopsOnLines_withJsonData_shouldMapOk() {
     List<BusStopOnLine> busStopOnLines = mapper.mapBusStopsOnLines(busStopOnLineDtos);
     assertThat(busStopOnLines).map(BusStopOnLine::getOrder).containsExactly(0, 1, 2, 0, 1, 2);
   }

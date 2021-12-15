@@ -8,7 +8,7 @@ public class BusStopResponseDto {
   @JsonProperty("StatusCode")
   public int statusCode;
   @JsonProperty("Message")
-  public Object message;
+  public String message;
   @JsonProperty("ExecutionTime")
   public int executionTime;
   @JsonProperty("ResponseData")

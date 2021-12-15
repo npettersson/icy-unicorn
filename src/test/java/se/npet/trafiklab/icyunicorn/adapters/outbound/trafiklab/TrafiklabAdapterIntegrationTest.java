@@ -50,8 +50,7 @@ class TrafiklabAdapterIntegrationTest {
 
     List<BusLine> busLines = adapter.getBusLines();
 
-    assertThat(busLines).isNotEmpty();
-    assertThat(busLines).hasSize(5);
+    assertThat(busLines).isNotEmpty().hasSize(5);
     assertThat(busLines).map(BusLine::getDesignation)
         .containsExactlyInAnyOrder("1", "112", "113", "114", "UL870");
 
@@ -67,8 +66,7 @@ class TrafiklabAdapterIntegrationTest {
 
     List<BusStop> busStops = adapter.getBusStops();
 
-    assertThat(busStops).isNotEmpty();
-    assertThat(busStops).hasSize(3);
+    assertThat(busStops).isNotEmpty().hasSize(3);
     assertThat(busStops).map(BusStop::getStopPointName)
         .containsExactlyInAnyOrder("Bus stop A", "Bus stop B", "Bus stop C");
 

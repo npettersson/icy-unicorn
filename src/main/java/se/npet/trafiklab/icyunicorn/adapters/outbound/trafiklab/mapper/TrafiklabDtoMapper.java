@@ -27,7 +27,7 @@ public interface TrafiklabDtoMapper {
   @Mapping(source = "lineNumber", target = "lineId")
   @Mapping(source = "lineDesignation", target = "designation")
   @Mapping(source = "existsFromDate", target = "existsFrom")
-  @Mapping(target = "routes", ignore = true)
+  @Mapping(target = "busRoutes", ignore = true)
   @Mapping(target = "numberOfDistinctStops", ignore = true)
   BusLine toBusLine(BusLineDto busLineDto);
 

@@ -38,14 +38,14 @@ class BusLinesStoreTest {
   }
 
   @Test
-  void getBusLinesWithMostStops() {
+  void getBusLinesWithMostStops_shouldContainTopFour() {
     assertThat(busLinesStore.getBusLinesWithMostStops(4))
       .hasSize(4)
       .containsExactly(b5, b1, b3, b2);
   }
 
   @Test
-  void getBusLineByLineId() {
+  void getBusLineByLineId_shouldReturnBusLine() {
     assertThat(busLinesStore.getBusLineByLineId("4"))
         .isNotNull()
         .extracting("lineId")

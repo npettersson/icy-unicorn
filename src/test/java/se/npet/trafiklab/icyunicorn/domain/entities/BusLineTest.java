@@ -16,7 +16,7 @@ class BusLineTest {
     assertThat(busLine.getLineId()).isEqualTo("4");
     assertThat(busLine.getDesignation()).isEqualTo("Bus 4");
     assertThat(busLine.getBusRoutes()).isEmpty();
-    assertThat(busLine.getNumberOfDistinctStops()).isEqualTo(0);
+    assertThat(busLine.getNumberOfDistinctStops()).isZero();
   }
 
   @Test
@@ -29,7 +29,7 @@ class BusLineTest {
   }
 
   @Test
-  void testCalcNbrOfDistinctStops_shouldReturn5DistinctStops() {
+  void calcNbrOfDistinctStops_shouldReturn5DistinctStops() {
     BusLine busLine = new BusLine("4", "Bus 4", LocalDate.of(2021, 1, 1));
     List<BusRoute> busRoutes = List
         .of(BusLinesTestUtils.makeBusRoute(4, RouteDirection.A), BusLinesTestUtils.makeBusRoute(5, RouteDirection.B));

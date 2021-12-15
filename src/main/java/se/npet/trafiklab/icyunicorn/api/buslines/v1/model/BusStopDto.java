@@ -1,7 +1,6 @@
 package se.npet.trafiklab.icyunicorn.api.buslines.v1.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class BusStopDto {

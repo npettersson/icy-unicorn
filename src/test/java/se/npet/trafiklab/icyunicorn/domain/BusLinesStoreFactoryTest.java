@@ -23,8 +23,6 @@ class BusLinesStoreFactoryTest {
 
   private BusLine b1, b2old, b2new;
 
-  private BusStop s1, s2,s3, s4, s5, s6;
-
   private List<BusLine> busLines;
   private List<BusStop> busStops;
   private List<BusStopOnLine> busStopOnLines;
@@ -37,30 +35,31 @@ class BusLinesStoreFactoryTest {
 
   @BeforeEach
   void setUp() {
-    this.b1 = new BusLine("1", "b1", LocalDate.of(2021,1,1));
+    this.b1 = new BusLine("1", "b1", LocalDate.of(2021, 1, 1));
     this.b2old = new BusLine("2", "b2", LocalDate.of(2021, 1, 1));
     this.b2new = new BusLine("2", "b2", LocalDate.of(2021, 3, 1));
     this.busLines = List.of(b1, b2old, b2new);
 
-    this.s1 = new BusStop("1", "1", "Stop 1");
-    this.s2 = new BusStop("2", "2", "Stop 2");
-    this.s3 = new BusStop("3", "3", "Stop 3");
-    this.s4 = new BusStop("4", "4", "Stop 4");
-    this.s5 = new BusStop("5", "5", "Stop 5");
-    this.s6 = new BusStop("6", "6", "Stop 6");
-    this.busStops = List.of(s1, s2, s3, s4, s5, s6);
+    this.busStops = List.of(
+        new BusStop("1", "1", "Stop 1"),
+        new BusStop("2", "2", "Stop 2"),
+        new BusStop("3", "3", "Stop 3"),
+        new BusStop("4", "4", "Stop 4"),
+        new BusStop("5", "5", "Stop 5"),
+        new BusStop("6", "6", "Stop 6")
+    );
 
-    busStopOnLines = List.of(
-      new BusStopOnLine("1", "1", RouteDirection.A),
-      new BusStopOnLine("1", "2", RouteDirection.A),
-      new BusStopOnLine("1", "3", RouteDirection.A),
-      new BusStopOnLine("1", "3", RouteDirection.B),
-      new BusStopOnLine("1", "2", RouteDirection.B),
-      new BusStopOnLine("1", "1", RouteDirection.B),
-      new BusStopOnLine("2", "4", RouteDirection.A),
-      new BusStopOnLine("2", "5", RouteDirection.A),
-      new BusStopOnLine("2", "5", RouteDirection.B),
-      new BusStopOnLine("2", "4", RouteDirection.B)
+    this.busStopOnLines = List.of(
+        new BusStopOnLine("1", "1", RouteDirection.A),
+        new BusStopOnLine("1", "2", RouteDirection.A),
+        new BusStopOnLine("1", "3", RouteDirection.A),
+        new BusStopOnLine("1", "3", RouteDirection.B),
+        new BusStopOnLine("1", "2", RouteDirection.B),
+        new BusStopOnLine("1", "1", RouteDirection.B),
+        new BusStopOnLine("2", "4", RouteDirection.A),
+        new BusStopOnLine("2", "5", RouteDirection.A),
+        new BusStopOnLine("2", "5", RouteDirection.B),
+        new BusStopOnLine("2", "4", RouteDirection.B)
     );
   }
 
@@ -83,10 +82,10 @@ class BusLinesStoreFactoryTest {
   }
 
   @Test
-  void testPrepBusLinesMap_shouldContainOnlyRecentBusLines() {
+  void prepareBusLinesMap_shouldContainOnlyRecentBusLines() {
     Map<String, BusLine> busLineMap = storeFactory.prepareBusLinesMap(this.busLines);
     assertThat(busLineMap).isNotNull().hasSize(2);
-    assertThat(busLineMap.values()).contains(b1, b2new);
+    assertThat(busLineMap.values()).contains(b1, b2new).doesNotContain(b2old);
   }
 
 }
