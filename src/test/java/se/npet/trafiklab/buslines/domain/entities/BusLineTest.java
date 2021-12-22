@@ -11,9 +11,9 @@ class BusLineTest {
 
   @Test
   void testCreate_allOk(){
-    BusLine busLine = new BusLine("4", "Bus 4", LocalDate.of(2021, 1, 1));
+    BusLine busLine = new BusLine(4, "Bus 4", LocalDate.of(2021, 1, 1));
     assertThat(busLine).isNotNull();
-    assertThat(busLine.getLineId()).isEqualTo("4");
+    assertThat(busLine.getId()).isEqualTo(4);
     assertThat(busLine.getDesignation()).isEqualTo("Bus 4");
     assertThat(busLine.getBusRoutes()).isEmpty();
     assertThat(busLine.getNumberOfDistinctStops()).isZero();
@@ -21,7 +21,7 @@ class BusLineTest {
 
   @Test
   void testCreateAndAddRoute_shouldWorkOk() {
-    BusLine busLine = new BusLine("4", "Bus 4", LocalDate.of(2021, 1, 1));
+    BusLine busLine = new BusLine(4, "Bus 4", LocalDate.of(2021, 1, 1));
     busLine.addRoute(BusLinesTestUtils.makeBusRoute(4, RouteDirection.A));
     assertThat(busLine.getBusRoutes()).hasSize(1);
     assertThat(busLine.getBusRouteByDirection(RouteDirection.A)).isNotNull();
@@ -30,7 +30,7 @@ class BusLineTest {
 
   @Test
   void calcNbrOfDistinctStops_shouldReturn5DistinctStops() {
-    BusLine busLine = new BusLine("4", "Bus 4", LocalDate.of(2021, 1, 1));
+    BusLine busLine = new BusLine(4, "Bus 4", LocalDate.of(2021, 1, 1));
     List<BusRoute> busRoutes = List
         .of(BusLinesTestUtils.makeBusRoute(4, RouteDirection.A), BusLinesTestUtils.makeBusRoute(5, RouteDirection.B));
     assertThat(busLine.calcNumberOfDistinctStops(busRoutes)).isEqualTo(5);

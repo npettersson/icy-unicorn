@@ -24,7 +24,7 @@ public interface TrafiklabDtoMapper {
         .collect(Collectors.toList());
   }
 
-  @Mapping(source = "lineNumber", target = "lineId")
+  @Mapping(source = "lineNumber", target = "id")
   @Mapping(source = "lineDesignation", target = "designation")
   @Mapping(source = "existsFromDate", target = "existsFrom")
   @Mapping(target = "busRoutes", ignore = true)
@@ -37,7 +37,7 @@ public interface TrafiklabDtoMapper {
         .collect(Collectors.toList());
   }
 
-  @Mapping(source = "stopPointNumber", target = "stopPointId")
+  @Mapping(source = "stopPointNumber", target = "id")
   @Mapping(source = "stopAreaNumber", target = "stopAreaId")
   @Mapping(source = "stopPointName", target = "stopPointName")
   @Mapping(source = "locationNorthingCoordinate", target = "northingCoord")
@@ -53,8 +53,8 @@ public interface TrafiklabDtoMapper {
         .collect(Collectors.toList());
   }
 
-  @Mapping(source = "lineNumber", target = "lineId")
-  @Mapping(source = "journeyPatternPointNumber", target = "stopPointId")
+  @Mapping(source = "lineNumber", target = "busLineId")
+  @Mapping(source = "journeyPatternPointNumber", target = "busStopId")
   @Mapping(source = "directionCode", target = "routeDirection")
   @Mapping(source = "existsFromDate", target = "existsFrom")
   @Mapping(target = "order", ignore = true)

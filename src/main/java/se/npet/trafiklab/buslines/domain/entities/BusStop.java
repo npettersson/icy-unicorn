@@ -7,16 +7,16 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class BusStop {
-  private String stopPointId;
-  private String stopAreaId;
+  private Integer id;
+  private Integer stopAreaId;
   private String stopPointName;
   private String northingCoord;
   private String eastingCoord;
   private String zone;
   private LocalDate existsFrom;
 
-  public BusStop(String stopPointId, String stopAreaId, String stopPointName) {
-    this.stopPointId = stopPointId;
+  public BusStop(Integer id, Integer stopAreaId, String stopPointName) {
+    this.id = id;
     this.stopAreaId = stopAreaId;
     this.stopPointName = stopPointName;
   }

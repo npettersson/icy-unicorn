@@ -5,7 +5,7 @@ import se.npet.trafiklab.buslines.domain.entities.BusLine;
 
 public interface BusLinesService {
 
-  BusLine getBusLineByLineId(String lineId);
+  BusLine getBusLineByLineId(Integer busLineId);
 
   List<BusLine> getTopBusLinesByNumberOfStops(int limit);
 }

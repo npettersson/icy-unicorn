@@ -48,7 +48,7 @@ class TrafiklabDtoMapperTest {
   void mapBusLines_withJsonData_shouldMapOk() {
     List<BusLine> busLines = mapper.mapBusLines(busLineDtos);
     assertThat(busLines).hasSize(5).allSatisfy(busLine -> {
-      assertThat(busLine.getLineId()).isNotNull();
+      assertThat(busLine.getId()).isNotNull();
       assertThat(busLine.getDesignation()).isNotNull();
       assertThat(busLine.getExistsFrom()).isNotNull();
     });
@@ -58,7 +58,7 @@ class TrafiklabDtoMapperTest {
   void mapBusStops_withJsonData_shouldMapOk() {
     List<BusStop> busStops = mapper.mapBusStops(this.busStopDtos);
     assertThat(busStops).hasSize(3).allSatisfy(busStop -> {
-      assertThat(busStop.getStopPointId()).isNotNull();
+      assertThat(busStop.getId()).isNotNull();
       assertThat(busStop.getStopAreaId()).isNotNull();
       assertThat(busStop.getStopPointName()).isNotNull();
       assertThat(busStop.getNorthingCoord()).isNotNull();

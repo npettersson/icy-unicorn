@@ -11,23 +11,23 @@ import se.npet.trafiklab.buslines.domain.entities.BusLine;
 @Slf4j
 public class BusLinesStore {
 
-  private final Map<String, BusLine> busLineMap;
+  private final Map<Integer, BusLine> busLineMap;
 
-  public BusLinesStore(Map<String, BusLine> busLineMap) {
+  public BusLinesStore(Map<Integer, BusLine> busLineMap) {
     this.busLineMap = busLineMap;
   }
 
-  public BusLine getBusLineByLineId(String lineId) {
+  public BusLine getBusLineByLineId(Integer busLineId) {
     StopWatch stopWatch = new StopWatch();
     stopWatch.start("Fetch bus line by line id");
-    BusLine busLine = getBusLineMap().get(lineId);
+    BusLine busLine = getBusLineMap().get(busLineId);
     stopWatch.stop();
 
-    log.info("Found bus line <{}> in <{}> ms", busLine.getLineId(), stopWatch.getLastTaskTimeMillis());
+    log.info("Found bus line <{}> in <{}> ms", busLine.getId(), stopWatch.getLastTaskTimeMillis());
     return busLine;
   }
 
-  public Map<String, BusLine> getBusLineMap() {
+  public Map<Integer, BusLine> getBusLineMap() {
     return busLineMap;
   }
 

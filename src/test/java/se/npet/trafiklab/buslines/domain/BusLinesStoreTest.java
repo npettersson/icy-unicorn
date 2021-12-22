@@ -18,15 +18,15 @@ class BusLinesStoreTest {
 
   @BeforeEach
   void setUp() {
-    this.b1 = makeBusLine("1", 9);
-    this.b2 = makeBusLine("2", 7);
-    this.b3 = makeBusLine("3", 8);
-    this.b4 = makeBusLine("4", 5);
-    this.b5 = makeBusLine("5", 10);
-    this.b6 = makeBusLine("6", 6);
+    this.b1 = makeBusLine(1, 9);
+    this.b2 = makeBusLine(2, 7);
+    this.b3 = makeBusLine(3, 8);
+    this.b4 = makeBusLine(4, 5);
+    this.b5 = makeBusLine(5, 10);
+    this.b6 = makeBusLine(6, 6);
 
-    Map<String, BusLine> busLinesMap = new TreeMap<>();
-    List.of(b1, b2, b3, b4, b5, b6).forEach(b -> busLinesMap.put(b.getLineId(), b));
+    Map<Integer, BusLine> busLinesMap = new TreeMap<>();
+    List.of(b1, b2, b3, b4, b5, b6).forEach(b -> busLinesMap.put(b.getId(), b));
     this.busLinesStore = new BusLinesStore(busLinesMap);
   }
 
@@ -39,10 +39,10 @@ class BusLinesStoreTest {
 
   @Test
   void getBusLineByLineId_shouldReturnBusLine() {
-    assertThat(busLinesStore.getBusLineByLineId("4"))
+    assertThat(busLinesStore.getBusLineByLineId(4))
         .isNotNull()
-        .extracting("lineId")
-        .isEqualTo("4");
+        .extracting("id")
+        .isEqualTo(4);
   }
 
 }

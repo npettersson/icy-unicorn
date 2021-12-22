@@ -15,8 +15,8 @@ public class BusLinesServiceImpl implements BusLinesService {
   }
 
   @Override
-  public BusLine getBusLineByLineId(String lineId) {
-    return this.busLinesStore.getBusLineByLineId(lineId);
+  public BusLine getBusLineByLineId(Integer busLineId) {
+    return this.busLinesStore.getBusLineByLineId(busLineId);
   }
 
   @Override

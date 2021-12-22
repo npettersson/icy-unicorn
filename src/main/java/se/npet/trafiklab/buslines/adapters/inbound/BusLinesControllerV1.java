@@ -28,7 +28,7 @@ public class BusLinesControllerV1 {
 
   @Operation(summary = "Get a bus line with their routes and stops by the line id")
   @GetMapping("/{lineId}")
-  public BusLineDto getBusLineByLineId(@PathVariable String lineId) {
+  public BusLineDto getBusLineByLineId(@PathVariable Integer lineId) {
     return mapper.toBusLinesDto(busLinesService.getBusLineByLineId(lineId));
   }
 

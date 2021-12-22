@@ -7,19 +7,19 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class BusStopOnLine {
-  private String lineId;
-  private String stopPointId;
+  private Integer busLineId;
+  private Integer busStopId;
   private RouteDirection routeDirection;
   private LocalDate existsFrom;
   private int order;
 
-  public BusStopOnLine(String lineId, String stopPointId, RouteDirection routeDirection) {
-    this.lineId = lineId;
-    this.stopPointId = stopPointId;
+  public BusStopOnLine(Integer busLineId, Integer busStopId, RouteDirection routeDirection) {
+    this.busLineId = busLineId;
+    this.busStopId = busStopId;
     this.routeDirection = routeDirection;
   }
 
   public BusLineAndDirection getBusLineAndDirection() {
-    return BusLineAndDirection.from(lineId, routeDirection);
+    return BusLineAndDirection.from(busLineId, routeDirection);
   }
 }

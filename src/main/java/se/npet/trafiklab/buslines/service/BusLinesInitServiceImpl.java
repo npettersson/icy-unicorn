@@ -40,13 +40,13 @@ public class BusLinesInitServiceImpl implements InitializingBean {
 
   private void populateBusLinesDb(List<BusLine> busLines, List<BusStop> busStops, List<BusStopOnLine> busStopsOnLines) {
     log.info("Populating data base with bus lines data...");
-    Map<String, BusLine> busLineMap = prepareBusLinesMap(busLines);
+    Map<Integer, BusLine> busLineMap = prepareBusLinesMap(busLines);
 
     log.info("Persisting <{}> bus lines", busLineMap.size());
     busLinesDbPort.persistBusLines(busLineMap.values());
 
-    Map<String, BusStop> busStopMap = busStops.stream()
-        .collect(Collectors.toMap(BusStop::getStopPointId, Function.identity()));
+    Map<Integer, BusStop> busStopMap = busStops.stream()
+        .collect(Collectors.toMap(BusStop::getId, Function.identity()));
 
     log.info("Persisting <{}> bus stops", busStopMap.size());
     busLinesDbPort.persistBusStops(busStopMap.values());
@@ -56,23 +56,23 @@ public class BusLinesInitServiceImpl implements InitializingBean {
     busLinesDbPort.persistBusStopOnLine(busStopSet);
   }
 
-  Set<BusStopOnLine> ensureBusStopsAndBusLinesExists(List<BusStopOnLine> busStopOnLines, Map<String, BusLine> busLineMap, Map<String, BusStop> busStopMap) {
+  Set<BusStopOnLine> ensureBusStopsAndBusLinesExists(List<BusStopOnLine> busStopOnLines, Map<Integer, BusLine> busLineMap, Map<Integer, BusStop> busStopMap) {
     return busStopOnLines.stream()
         .filter(busStopOnLine -> {
-          boolean stopAndLineExists = busStopMap.containsKey(busStopOnLine.getStopPointId()) && busLineMap.containsKey(busStopOnLine.getLineId());
+          boolean stopAndLineExists = busStopMap.containsKey(busStopOnLine.getBusStopId()) && busLineMap.containsKey(busStopOnLine.getBusLineId());
           if (!stopAndLineExists) {
-            log.warn("Could not find bus stop with id <{}> when persisting stop on line <{}>", busStopOnLine.getStopPointId(),
-                busStopOnLine.getLineId());
+            log.warn("Could not find bus stop with id <{}> when persisting stop on line <{}>", busStopOnLine.getBusStopId(),
+                busStopOnLine.getBusLineId());
           }
           return stopAndLineExists;
         })
         .collect(Collectors.toSet());
   }
 
-  Map<String, BusLine> prepareBusLinesMap(List<BusLine> busLines) {
-    Map<String, BusLine> busLinesMap = new TreeMap<>();
+  Map<Integer, BusLine> prepareBusLinesMap(List<BusLine> busLines) {
+    Map<Integer, BusLine> busLinesMap = new TreeMap<>();
     // Data quality problem, duplicate lines exist in data set, make sure to include only the most current bus line
-    busLines.forEach(busLine -> busLinesMap.merge(busLine.getLineId(), busLine,
+    busLines.forEach(busLine -> busLinesMap.merge(busLine.getId(), busLine,
         (currLine, newLine) -> (newLine.getExistsFrom().isAfter(currLine.getExistsFrom())) ? newLine : currLine));
     return busLinesMap;
   }

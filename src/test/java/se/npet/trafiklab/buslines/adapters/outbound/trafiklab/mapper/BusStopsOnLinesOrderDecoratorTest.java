@@ -12,11 +12,11 @@ class BusStopsOnLinesOrderDecoratorTest {
 
   @Test
   void getNextOrderInt_shouldIncrementAndReset() {
-    assertThat(decorator.getNextOrderInt(BusLineAndDirection.from("1", RouteDirection.A))).isZero();
-    assertThat(decorator.getNextOrderInt(BusLineAndDirection.from("1", RouteDirection.A))).isEqualTo(1);
-    assertThat(decorator.getNextOrderInt(BusLineAndDirection.from("1", RouteDirection.A))).isEqualTo(2);
-    assertThat(decorator.getNextOrderInt(BusLineAndDirection.from("1", RouteDirection.B))).isZero();
-    assertThat(decorator.getNextOrderInt(BusLineAndDirection.from("1", RouteDirection.B))).isEqualTo(1);
-    assertThat(decorator.getNextOrderInt(BusLineAndDirection.from("2", RouteDirection.A))).isZero();
+    assertThat(decorator.getNextOrderInt(BusLineAndDirection.from(1, RouteDirection.A))).isZero();
+    assertThat(decorator.getNextOrderInt(BusLineAndDirection.from(1, RouteDirection.A))).isEqualTo(1);
+    assertThat(decorator.getNextOrderInt(BusLineAndDirection.from(1, RouteDirection.A))).isEqualTo(2);
+    assertThat(decorator.getNextOrderInt(BusLineAndDirection.from(1, RouteDirection.B))).isZero();
+    assertThat(decorator.getNextOrderInt(BusLineAndDirection.from(1, RouteDirection.B))).isEqualTo(1);
+    assertThat(decorator.getNextOrderInt(BusLineAndDirection.from(2, RouteDirection.A))).isZero();
   }
 }

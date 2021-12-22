@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class BusLine {
 
-  private final String lineId;
+  private final Integer id;
   private final String designation;
   private final LocalDate existsFrom;
   private final EnumMap<RouteDirection, BusRoute> busRouteMap = new EnumMap<>(RouteDirection.class);

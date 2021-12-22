@@ -7,10 +7,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BusLineAndDirection {
-  private final String lineId;
+  private final Integer busLineId;
   private final RouteDirection direction;
 
-  public static BusLineAndDirection from(String lineId, RouteDirection direction) {
-    return new BusLineAndDirection(lineId, direction);
+  public static BusLineAndDirection from(Integer busLineId, RouteDirection direction) {
+    return new BusLineAndDirection(busLineId, direction);
   }
 }

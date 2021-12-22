@@ -6,6 +6,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 import java.util.List;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +24,7 @@ import se.npet.trafiklab.buslines.domain.ports.BusLinesDataPort;
 import se.npet.trafiklab.buslines.domain.entities.BusLine;
 import se.npet.trafiklab.buslines.domain.entities.BusStop;
 
+@Disabled
 @ActiveProfiles("integration-test")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = { SpringTestConfiguration.class })
 class TrafiklabAdapterIntegrationTest {

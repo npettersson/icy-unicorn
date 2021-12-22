@@ -40,9 +40,9 @@ public class BusLinesStoreFactory {
 
   BusLinesStore createBusLinesStore(List<BusLine> busLines, List<BusStop> busStops, List<BusStopOnLine> busStopOnLines) {
 
-    Map<String, BusLine> busLineMap = prepareBusLinesMap(busLines);
+    Map<Integer, BusLine> busLineMap = prepareBusLinesMap(busLines);
 
-    Map<String, BusStop> busStopMap = busStops.stream().collect(Collectors.toMap(BusStop::getStopPointId, Function.identity()));
+    Map<Integer, BusStop> busStopMap = busStops.stream().collect(Collectors.toMap(BusStop::getId, Function.identity()));
 
     // Group all bus stop points according to line and direction
     Map<BusLineAndDirection, List<BusStopOnLine>> busLineAndDirectionListMap = busStopOnLines.stream()
@@ -51,21 +51,21 @@ public class BusLinesStoreFactory {
     // Process the bus stop point map and create route for each direction, add the routes to the bus line
     busLineAndDirectionListMap.forEach((key, value) -> {
       BusRoute busRoute = createBusRoute(key.getDirection(), value, busStopMap);
-      busLineMap.get(key.getLineId()).addRoute(busRoute);
+      busLineMap.get(key.getBusLineId()).addRoute(busRoute);
     });
 
     return new BusLinesStore(busLineMap);
   }
 
-  BusRoute createBusRoute(RouteDirection routeDirection, List<BusStopOnLine> busStopsOnLine, Map<String, BusStop> busStopMap) {
+  BusRoute createBusRoute(RouteDirection routeDirection, List<BusStopOnLine> busStopsOnLine, Map<Integer, BusStop> busStopMap) {
     List<BusStop> busStopsOnRoute = busStopsOnLine.stream()
         .sorted(Comparator.comparing(BusStopOnLine::getOrder))
         .map(busStopOnLine -> {
-          BusStop busStop = busStopMap.get(busStopOnLine.getStopPointId());
+          BusStop busStop = busStopMap.get(busStopOnLine.getBusStopId());
           // Data quality problem, some stops doesn't exist in the bus stop data set
           if (busStop == null) {
             log.warn("Could not find bus stop with id <{}> when creating route <{}> on line <{}>, ", routeDirection,
-                busStopOnLine.getLineId(), busStopOnLine.getStopPointId());
+                busStopOnLine.getBusLineId(), busStopOnLine.getBusStopId());
           }
           return busStop;
         }).filter(Objects::nonNull)
@@ -74,10 +74,10 @@ public class BusLinesStoreFactory {
     return new BusRoute(routeDirection, busStopsOnRoute);
   }
 
-  Map<String, BusLine> prepareBusLinesMap(List<BusLine> busLines) {
-    Map<String, BusLine> busLinesMap = new TreeMap<>();
+  Map<Integer, BusLine> prepareBusLinesMap(List<BusLine> busLines) {
+    Map<Integer, BusLine> busLinesMap = new TreeMap<>();
     // Data quality problem, duplicate lines exist in data set, make sure to include only the most current bus line
-    busLines.forEach(busLine -> busLinesMap.merge(busLine.getLineId(), busLine,
+    busLines.forEach(busLine -> busLinesMap.merge(busLine.getId(), busLine,
         (currLine, newLine) -> (newLine.getExistsFrom().isAfter(currLine.getExistsFrom())) ? newLine : currLine));
     return busLinesMap;
   }

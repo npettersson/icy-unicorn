@@ -12,8 +12,8 @@ import se.npet.trafiklab.buslines.domain.entities.RouteDirection;
 
 public final class BusLinesTestUtils {
 
-  public static BusLine makeBusLine(String lineId, int nbrOfStops) {
-    BusLine busLine = new BusLine(lineId, "Bus " + lineId, LocalDate.of(2021, 1, 1));
+  public static BusLine makeBusLine(Integer busLineId, int nbrOfStops) {
+    BusLine busLine = new BusLine(busLineId, "Bus " + busLineId, LocalDate.of(2021, 1, 1));
     busLine.addRoute(makeBusRoute(nbrOfStops, RouteDirection.A));
     busLine.addRoute(makeBusRoute(nbrOfStops, RouteDirection.B));
     return busLine;
@@ -22,7 +22,7 @@ public final class BusLinesTestUtils {
   public static BusRoute makeBusRoute(int nbrOfStops, RouteDirection routeDirection) {
     List<BusStop> busStops = IntStream.rangeClosed(1, nbrOfStops)
         .mapToObj(stopId ->
-            new BusStop(Integer.toString(stopId), Integer.toString(stopId), "Bus stop " + stopId)
+            new BusStop(stopId, stopId, "Bus stop " + stopId)
         )
         .collect(Collectors.toList());
 

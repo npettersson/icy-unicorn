@@ -10,17 +10,15 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
-import org.jooq.Record;
 import org.springframework.stereotype.Component;
-import se.npet.trafiklab.buslines.adapters.outbound.db.jooq.Tables;
 import se.npet.trafiklab.buslines.adapters.outbound.db.jooq.tables.daos.BusLineDao;
 import se.npet.trafiklab.buslines.adapters.outbound.db.jooq.tables.daos.BusStopDao;
 import se.npet.trafiklab.buslines.adapters.outbound.db.jooq.tables.daos.BusStopOnLineDao;
 import se.npet.trafiklab.buslines.adapters.outbound.db.jooq.tables.pojos.BusLineEntity;
 import se.npet.trafiklab.buslines.adapters.outbound.db.jooq.tables.pojos.BusStopEntity;
-import se.npet.trafiklab.buslines.adapters.outbound.db.jooq.tables.pojos.BusStopOnLineEntity;
 import se.npet.trafiklab.buslines.adapters.outbound.db.mapper.DbMapper;
 import se.npet.trafiklab.buslines.domain.entities.BusLine;
 import se.npet.trafiklab.buslines.domain.entities.BusRoute;
@@ -28,6 +26,7 @@ import se.npet.trafiklab.buslines.domain.entities.BusStop;
 import se.npet.trafiklab.buslines.domain.entities.BusStopOnLine;
 import se.npet.trafiklab.buslines.domain.entities.RouteDirection;
 
+@Slf4j
 @Component
 public class BusLinesDbAdapter implements se.npet.trafiklab.buslines.domain.ports.BusLinesDbPort {
 
@@ -72,10 +71,10 @@ public class BusLinesDbAdapter implements se.npet.trafiklab.buslines.domain.port
     Map<RouteDirection, List<BusStopOnLine>> busStopOnLineEntityMap = busStopOnLineEntities.stream()
         .collect(Collectors.groupingBy(BusStopOnLine::getRouteDirection));
 
-    Set<String> busStopIds = busStopOnLineEntityMap.values()
+    Set<Integer> busStopIds = busStopOnLineEntityMap.values()
         .stream()
         .flatMap(Collection::stream)
-        .map(BusStopOnLine::getStopPointId)
+        .map(BusStopOnLine::getBusStopId)
         .collect(Collectors.toSet());
 
     Map<Integer, BusStopEntity> busStopEntityMap = dslContext.selectFrom(BUS_STOP)
@@ -90,11 +89,11 @@ public class BusLinesDbAdapter implements se.npet.trafiklab.buslines.domain.port
     List<BusStop> busStopsOnRoute = busStopsOnLine.stream()
         .sorted(Comparator.comparing(BusStopOnLine::getOrder))
         .map(busStopOnLine -> {
-          BusStop busStop = busStopMap.get(busStopOnLine.getStopPointId());
+          BusStop busStop = busStopMap.get(busStopOnLine.getBusStopId());
           // Data quality problem, some stops doesn't exist in the bus stop data set
           if (busStop == null) {
             log.warn("Could not find bus stop with id <{}> when creating route <{}> on line <{}>, ", routeDirection,
-                busStopOnLine.getLineId(), busStopOnLine.getStopPointId());
+                busStopOnLine.getBusLineId(), busStopOnLine.getBusStopId());
           }
           return busStop;
         }).filter(Objects::nonNull)
