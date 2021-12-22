@@ -1,5 +1,6 @@
 package se.npet.trafiklab.buslines.domain.entities;
 
+import java.time.LocalDate;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ public class BusStopOnLine {
   private String lineId;
   private String stopPointId;
   private RouteDirection routeDirection;
+  private LocalDate existsFrom;
   private int order;
 
   public BusStopOnLine(String lineId, String stopPointId, RouteDirection routeDirection) {

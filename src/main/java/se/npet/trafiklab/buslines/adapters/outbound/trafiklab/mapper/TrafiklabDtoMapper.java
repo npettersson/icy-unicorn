@@ -43,6 +43,7 @@ public interface TrafiklabDtoMapper {
   @Mapping(source = "locationNorthingCoordinate", target = "northingCoord")
   @Mapping(source = "locationEastingCoordinate", target = "eastingCoord")
   @Mapping(source = "zoneShortName", target = "zone")
+  @Mapping(source = "existsFromDate", target = "existsFrom")
   BusStop toBusStop(BusStopDto busStopDto);
 
   default List<BusStopOnLine> mapBusStopsOnLines(List<BusStopOnLineDto> busStopOnLineDtos) {
@@ -55,6 +56,7 @@ public interface TrafiklabDtoMapper {
   @Mapping(source = "lineNumber", target = "lineId")
   @Mapping(source = "journeyPatternPointNumber", target = "stopPointId")
   @Mapping(source = "directionCode", target = "routeDirection")
+  @Mapping(source = "existsFromDate", target = "existsFrom")
   @Mapping(target = "order", ignore = true)
   BusStopOnLine toBusStopOnLine(BusStopOnLineDto busStopOnLineDto, @Context BusStopsOnLinesOrderDecorator orderDecorator);
 

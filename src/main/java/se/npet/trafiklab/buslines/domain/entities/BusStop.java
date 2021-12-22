@@ -1,5 +1,6 @@
 package se.npet.trafiklab.buslines.domain.entities;
 
+import java.time.LocalDate;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ public class BusStop {
   private String northingCoord;
   private String eastingCoord;
   private String zone;
+  private LocalDate existsFrom;
 
   public BusStop(String stopPointId, String stopAreaId, String stopPointName) {
     this.stopPointId = stopPointId;
