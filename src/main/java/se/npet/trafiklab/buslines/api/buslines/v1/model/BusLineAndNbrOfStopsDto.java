@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class BusLineAndNbrOfStopsDto {
-  private String lineId;
+  private Integer id;
   private String designation;
-  private int numberOfDistinctStops;
+  private long numberOfDistinctStops;
 }
