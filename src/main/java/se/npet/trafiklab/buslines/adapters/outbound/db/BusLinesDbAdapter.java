@@ -1,14 +1,11 @@
 package se.npet.trafiklab.buslines.adapters.outbound.db;
 
-import static se.npet.trafiklab.buslines.adapters.outbound.db.jooq.Tables.*;
+import static se.npet.trafiklab.buslines.adapters.outbound.db.jooq.Tables.BUS_STOP;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.Configuration;
@@ -19,12 +16,12 @@ import se.npet.trafiklab.buslines.adapters.outbound.db.jooq.tables.daos.BusStopD
 import se.npet.trafiklab.buslines.adapters.outbound.db.jooq.tables.daos.BusStopOnLineDao;
 import se.npet.trafiklab.buslines.adapters.outbound.db.jooq.tables.pojos.BusLineEntity;
 import se.npet.trafiklab.buslines.adapters.outbound.db.jooq.tables.pojos.BusStopEntity;
+import se.npet.trafiklab.buslines.adapters.outbound.db.jooq.tables.pojos.BusStopOnLineEntity;
+import se.npet.trafiklab.buslines.adapters.outbound.db.mapper.BusLineConverter;
 import se.npet.trafiklab.buslines.adapters.outbound.db.mapper.DbMapper;
 import se.npet.trafiklab.buslines.domain.entities.BusLine;
-import se.npet.trafiklab.buslines.domain.entities.BusRoute;
 import se.npet.trafiklab.buslines.domain.entities.BusStop;
 import se.npet.trafiklab.buslines.domain.entities.BusStopOnLine;
-import se.npet.trafiklab.buslines.domain.entities.RouteDirection;
 
 @Slf4j
 @Component
@@ -36,10 +33,12 @@ public class BusLinesDbAdapter implements se.npet.trafiklab.buslines.domain.port
   private final BusLineDao busLineDao;
   private final BusStopDao busStopDao;
   private final BusStopOnLineDao busStopOnLineDao;
+  private final BusLineConverter busLineConverter;
 
   public BusLinesDbAdapter(DSLContext dslContext, Configuration jooqConfig, DbMapper dbMapper) {
     this.dslContext = dslContext;
     this.mapper = dbMapper;
+    this.busLineConverter = new BusLineConverter(dbMapper);
     this.busLineDao = new BusLineDao(jooqConfig);
     this.busStopDao = new BusStopDao(jooqConfig);
     this.busStopOnLineDao = new BusStopOnLineDao(jooqConfig);
@@ -62,43 +61,22 @@ public class BusLinesDbAdapter implements se.npet.trafiklab.buslines.domain.port
 
   public BusLine fetchBusLineById(Integer busLineId) {
 
-    BusLineEntity busLineEntity = busLineDao.fetchOneById(busLineId);
+    BusLineEntity busLineEntity = Optional.ofNullable(busLineDao.fetchOneById(busLineId))
+        .orElseThrow(() -> new IllegalStateException("Data not found"));
 
-    List<BusStopOnLine> busStopOnLineEntities = busStopOnLineDao.fetchByBusLineId(busLineEntity.getId()).stream()
-        .map(mapper::toBusStopOnLine)
-        .collect(Collectors.toList());
+    // Fetch all bus stop points on this bus line
+    List<BusStopOnLineEntity> busStopOnLineEntities = busStopOnLineDao.fetchByBusLineId(busLineEntity.getId());
 
-    Map<RouteDirection, List<BusStopOnLine>> busStopOnLineEntityMap = busStopOnLineEntities.stream()
-        .collect(Collectors.groupingBy(BusStopOnLine::getRouteDirection));
-
-    Set<Integer> busStopIds = busStopOnLineEntityMap.values()
-        .stream()
-        .flatMap(Collection::stream)
-        .map(BusStopOnLine::getBusStopId)
+    Set<Integer> busStopIds = busStopOnLineEntities.stream()
+        .map(BusStopOnLineEntity::getBusStopId)
         .collect(Collectors.toSet());
 
-    Map<Integer, BusStopEntity> busStopEntityMap = dslContext.selectFrom(BUS_STOP)
+    // Fetch all bus stops present on this line
+    List<BusStopEntity> busStopEntities = dslContext.selectFrom(BUS_STOP)
         .where(BUS_STOP.ID.in(busStopIds))
-        .collect(Collectors.mapping(r -> r.into(BusStopEntity.class), Collectors.toMap(BusStopEntity::getId, Function.identity())));
-
-
-    return null;
-  }
-
-  BusRoute createBusRoute(RouteDirection routeDirection, List<BusStopOnLine> busStopsOnLine, Map<String, BusStop> busStopMap) {
-    List<BusStop> busStopsOnRoute = busStopsOnLine.stream()
-        .sorted(Comparator.comparing(BusStopOnLine::getOrder))
-        .map(busStopOnLine -> {
-          BusStop busStop = busStopMap.get(busStopOnLine.getBusStopId());
-          // Data quality problem, some stops doesn't exist in the bus stop data set
-          if (busStop == null) {
-            log.warn("Could not find bus stop with id <{}> when creating route <{}> on line <{}>, ", routeDirection,
-                busStopOnLine.getBusLineId(), busStopOnLine.getBusStopId());
-          }
-          return busStop;
-        }).filter(Objects::nonNull)
+        .fetchStreamInto(BusStopEntity.class)
         .collect(Collectors.toList());
 
-    return new BusRoute(routeDirection, busStopsOnRoute);
+    return busLineConverter.toBusLine(busLineEntity, busStopOnLineEntities, busStopEntities);
   }
 }

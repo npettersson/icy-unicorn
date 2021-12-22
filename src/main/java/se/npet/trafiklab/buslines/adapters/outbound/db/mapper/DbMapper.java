@@ -6,9 +6,10 @@ import org.mapstruct.Mapping;
 import se.npet.trafiklab.buslines.adapters.outbound.db.jooq.tables.pojos.BusLineEntity;
 import se.npet.trafiklab.buslines.adapters.outbound.db.jooq.tables.pojos.BusStopEntity;
 import se.npet.trafiklab.buslines.adapters.outbound.db.jooq.tables.pojos.BusStopOnLineEntity;
+import se.npet.trafiklab.buslines.domain.entities.BusLine;
+import se.npet.trafiklab.buslines.domain.entities.BusStop;
 import se.npet.trafiklab.buslines.domain.entities.BusStopOnLine;
 import se.npet.trafiklab.buslines.domain.entities.RouteDirection;
-
 
 @Mapper(componentModel = "spring")
 public interface DbMapper {
@@ -34,5 +35,16 @@ public interface DbMapper {
   @Mapping(target = "order", source = "stopOrder")
   BusStopOnLine toBusStopOnLine(BusStopOnLineEntity busStopOnLineEntity);
 
-  RouteDirection toRouteDirection(String routeDirectionString);
+  default RouteDirection toRouteDirection(String routeDirectionString) {
+    return ( routeDirectionString != null )
+      ? RouteDirection.valueOf(routeDirectionString.toUpperCase())
+      : null;
+  }
+
+  @Mapping(target = "stopPointName", source = "name")
+  @Mapping(target = "northingCoord", source = "northCoord")
+  @Mapping(target = "eastingCoord", source = "eastCoord")
+  BusStop toBusStop(BusStopEntity busStopEntity);
+
+  BusLine toBusLine(BusLineEntity busLineEntity);
 }
