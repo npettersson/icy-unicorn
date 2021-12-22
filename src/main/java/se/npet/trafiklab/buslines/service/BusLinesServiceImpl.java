@@ -4,19 +4,22 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 import se.npet.trafiklab.buslines.domain.BusLinesStore;
 import se.npet.trafiklab.buslines.domain.entities.BusLine;
+import se.npet.trafiklab.buslines.domain.ports.BusLinesDbPort;
 
 @Component
 public class BusLinesServiceImpl implements BusLinesService {
 
   private final BusLinesStore busLinesStore;
+  private final BusLinesDbPort busLinesDbPort;
 
-  public BusLinesServiceImpl(BusLinesStore busLinesStore) {
+  public BusLinesServiceImpl(BusLinesStore busLinesStore, BusLinesDbPort busLinesDbPort) {
     this.busLinesStore = busLinesStore;
+    this.busLinesDbPort = busLinesDbPort;
   }
 
   @Override
   public BusLine getBusLineByLineId(Integer busLineId) {
-    return this.busLinesStore.getBusLineByLineId(busLineId);
+    return this.busLinesDbPort.fetchBusLineById(busLineId);
   }
 
   @Override
